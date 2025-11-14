@@ -576,16 +576,10 @@ const LuxuryJewelry = () => {
                       R$ {product.price.toLocaleString('pt-BR')}
                     </p>
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCart([...cart, product]);
-                        setNotificationMessage(`${product.name} adicionado ao carrinho!`);
-                        setShowNotification(true);
-                        setTimeout(() => setShowNotification(false), 2000);
-                      }}
+                      onClick={(e) => {e.stopPropagation(); addToCart(product); setShowCart(true);}}
                       className="w-full bg-stone-900 text-white py-2 text-xs tracking-widest hover:bg-stone-800 transition-colors rounded"
                     >
-                      + ADICIONAR AO CARRINHO
+                      ADICIONAR AO CARRINHO
                     </button>
                   </div>
                 </div>
