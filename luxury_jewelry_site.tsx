@@ -572,9 +572,21 @@ const LuxuryJewelry = () => {
                     </div>
                     <h3 className="text-xl font-serif text-stone-900 mb-2">{product.name}</h3>
                     <p className="text-sm text-stone-600 mb-3">{product.description}</p>
-                    <p className="text-lg text-stone-900">
-                      ${product.price.toLocaleString()}
+                    <p className="text-lg text-stone-900 mb-4">
+                      R$ {product.price.toLocaleString('pt-BR')}
                     </p>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart([...cart, product]);
+                        setNotificationMessage(`${product.name} adicionado ao carrinho!`);
+                        setShowNotification(true);
+                        setTimeout(() => setShowNotification(false), 2000);
+                      }}
+                      className="w-full bg-stone-900 text-white py-2 text-xs tracking-widest hover:bg-stone-800 transition-colors rounded"
+                    >
+                      + ADICIONAR AO CARRINHO
+                    </button>
                   </div>
                 </div>
               ))}
@@ -597,7 +609,7 @@ const LuxuryJewelry = () => {
                   <p className="text-sm tracking-widest mb-6 text-stone-400">NOSSO LEGADO</p>
                   <h3 className="text-4xl md:text-5xl font-serif mb-8 leading-tight">Sete Gerações de Excelência</h3>
                   <p className="text-stone-300 mb-6 leading-relaxed">
-                    Desde 1847, a Maison d'Héritage cria joias para as famílias mais distinguidas do mundo. Cada peça é um testemunho do nosso compromisso inabalável com a perfeição artesanal.
+                    Desde 1847, a Sorelle cria joias para as famílias mais distinguidas do mundo. Cada peça é um testemunho do nosso compromisso inabalável com a perfeição artesanal.
                   </p>
                   <p className="text-stone-300 mb-8 leading-relaxed">
                     Nossos mestres joalheiros empregam técnicas transmitidas através dos séculos, garantindo que cada criação se torne uma relíquia querida.
@@ -1028,7 +1040,7 @@ const LuxuryJewelry = () => {
 
             <h4 className="text-2xl font-serif mb-6 mt-16">Patrocínio Real</h4>
             <p className="text-stone-600 mb-8 leading-relaxed">
-              Ao longo de nossa história, a Maison d'Héritage foi honrada em servir famílias reais e patronos distintos em todo o mundo. Das cortes da Europa aos luminares dos dias modernos, nossas peças adornaram algumas das figuras mais influentes da história, cada peça contando sua própria história notável.
+              Ao longo de nossa história, a Sorelle foi honrada em servir famílias reais e patronos distintos em todo o mundo. Das cortes da Europa aos luminares dos dias modernos, nossas peças adornaram algumas das figuras mais influentes da história, cada peça contando sua própria história notável.
             </p>
 
             <div className="bg-stone-50 p-8 my-12 rounded">
@@ -1242,105 +1254,217 @@ const LuxuryJewelry = () => {
       )}
 
       {currentPage === 'account' && (
-        <div className="min-h-screen">
-          <div className="relative h-96 bg-stone-900 flex items-center justify-center">
+        <div className="min-h-screen bg-stone-50">
+          <div className="relative h-80 bg-gradient-to-b from-stone-900 to-stone-800 flex items-center justify-center">
             <div className="text-center text-white">
-              <User className="w-12 h-12 mx-auto mb-4" />
+              <div className="bg-white/20 p-6 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                <User className="w-12 h-12" />
+              </div>
               <h2 className="text-5xl font-serif">Minha Conta</h2>
-              <p className="mt-4 text-stone-300">Gerencie seu perfil e pedidos</p>
+              <p className="mt-4 text-stone-200">Gerencie seu perfil, endereços e histórico de pedidos</p>
             </div>
           </div>
 
-          <div className="max-w-4xl mx-auto px-6 py-24">
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-stone-50 p-8 rounded">
-                <h3 className="text-2xl font-serif mb-6">Informações Pessoais</h3>
-                <div className="space-y-4">
+          <div className="max-w-6xl mx-auto px-6 py-20">
+            {/* Stats Cards */}
+            <div className="grid md:grid-cols-4 gap-4 mb-16">
+              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                <ShoppingBag className="w-8 h-8 text-stone-900 mb-3" />
+                <p className="text-2xl font-serif">{cart.length}</p>
+                <p className="text-sm text-stone-600">Itens no Carrinho</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                <Heart className="w-8 h-8 text-red-500 mb-3" />
+                <p className="text-2xl font-serif">{favorites.length}</p>
+                <p className="text-sm text-stone-600">Produtos Favoritos</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                <Award className="w-8 h-8 text-stone-900 mb-3" />
+                <p className="text-2xl font-serif">Membro</p>
+                <p className="text-sm text-stone-600">Status Premium</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
+                <CheckCircle className="w-8 h-8 text-green-600 mb-3" />
+                <p className="text-2xl font-serif">5 ⭐</p>
+                <p className="text-sm text-stone-600">Avaliação Média</p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
+              {/* Informações Pessoais */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm">
+                <div className="flex items-center mb-6">
+                  <User className="w-6 h-6 text-stone-900 mr-3" />
+                  <h3 className="text-2xl font-serif">Informações Pessoais</h3>
+                </div>
+                <div className="space-y-5">
                   <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">Nome Completo</label>
-                    <input type="text" placeholder="Seu nome" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Nome Completo *</label>
+                    <input type="text" placeholder="Seu nome completo" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
                   </div>
                   <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">Email</label>
-                    <input type="email" placeholder="seu@email.com" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Email *</label>
+                    <input type="email" placeholder="seu@email.com" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
                   </div>
                   <div>
                     <label className="block text-sm font-serif mb-2 text-stone-700">Telefone</label>
-                    <input type="tel" placeholder="+1 (212) 000-0000" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                    <input type="tel" placeholder="+55 (11) 9 8765-4321" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
                   </div>
-                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mt-6">
-                    SALVAR ALTERAÇÕES
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Data de Nascimento</label>
+                    <input type="date" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
+                  </div>
+                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 transition-colors rounded font-serif mt-6">
+                    ✓ SALVAR ALTERAÇÕES
                   </button>
                 </div>
               </div>
 
-              <div className="bg-stone-50 p-8 rounded">
-                <h3 className="text-2xl font-serif mb-6">Endereço</h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">Endereço</label>
-                    <input type="text" placeholder="Rua e número" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">Cidade</label>
-                    <input type="text" placeholder="Sua cidade" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">País</label>
-                    <input type="text" placeholder="País" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
-                  </div>
-                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mt-6">
-                    SALVAR ENDEREÇO
-                  </button>
+              {/* Endereço */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm">
+                <div className="flex items-center mb-6">
+                  <MapPin className="w-6 h-6 text-stone-900 mr-3" />
+                  <h3 className="text-2xl font-serif">Endereço de Entrega</h3>
                 </div>
-              </div>
-
-              <div className="bg-stone-50 p-8 rounded">
-                <h3 className="text-2xl font-serif mb-6">Segurança</h3>
-                <div className="space-y-4">
+                <div className="space-y-5">
                   <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">Senha Atual</label>
-                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Rua e Número *</label>
+                    <input type="text" placeholder="Ex: Av. Paulista, 1000" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">Nova Senha</label>
-                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-serif mb-2 text-stone-700">Complemento</label>
+                      <input type="text" placeholder="Apt 1203" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-serif mb-2 text-stone-700">CEP *</label>
+                      <input type="text" placeholder="01311-100" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-serif mb-2 text-stone-700">Confirme Senha</label>
-                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-serif mb-2 text-stone-700">Cidade *</label>
+                      <input type="text" placeholder="São Paulo" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-serif mb-2 text-stone-700">Estado *</label>
+                      <input type="text" placeholder="SP" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
+                    </div>
                   </div>
-                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mt-6">
-                    ALTERAR SENHA
+                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 transition-colors rounded font-serif mt-6">
+                    ✓ SALVAR ENDEREÇO
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="mt-16">
-              <h3 className="text-3xl font-serif mb-8">Meus Pedidos</h3>
-              <div className="grid gap-6">
-                {cart.length === 0 ? (
-                  <div className="text-center py-12 bg-stone-50 rounded">
-                    <ShoppingBag className="w-16 h-16 text-stone-300 mx-auto mb-4" />
-                    <p className="text-stone-600">Nenhum pedido realizado ainda</p>
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
+              {/* Segurança */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm">
+                <div className="flex items-center mb-6">
+                  <Shield className="w-6 h-6 text-stone-900 mr-3" />
+                  <h3 className="text-2xl font-serif">Segurança</h3>
+                </div>
+                <div className="space-y-5">
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Senha Atual *</label>
+                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
                   </div>
-                ) : (
-                  cart.map((order, index) => (
-                    <div key={index} className="border border-stone-200 p-6 rounded flex justify-between items-center">
-                      <div>
-                        <h4 className="font-serif text-lg mb-2">{order.name}</h4>
-                        <p className="text-stone-600 text-sm">ID do Pedido: #{1000 + index}</p>
-                        <p className="text-stone-600 text-sm">Status: Entregue</p>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Nova Senha *</label>
+                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Confirme Nova Senha *</label>
+                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-3 rounded focus:outline-none focus:border-stone-900 focus:ring-1 focus:ring-stone-900 transition-all" />
+                  </div>
+                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 transition-colors rounded font-serif mt-6">
+                    🔐 ALTERAR SENHA
+                  </button>
+                </div>
+              </div>
+
+              {/* Preferências */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm">
+                <div className="flex items-center mb-6">
+                  <Sparkles className="w-6 h-6 text-stone-900 mr-3" />
+                  <h3 className="text-2xl font-serif">Preferências</h3>
+                </div>
+                <div className="space-y-5">
+                  <div className="flex items-center justify-between p-4 border border-stone-200 rounded bg-stone-50 hover:bg-stone-100 transition-colors">
+                    <span className="text-sm font-serif">Receber Newsletter</span>
+                    <input type="checkbox" defaultChecked className="w-5 h-5 cursor-pointer" />
+                  </div>
+                  <div className="flex items-center justify-between p-4 border border-stone-200 rounded bg-stone-50 hover:bg-stone-100 transition-colors">
+                    <span className="text-sm font-serif">Notificações de Promoções</span>
+                    <input type="checkbox" defaultChecked className="w-5 h-5 cursor-pointer" />
+                  </div>
+                  <div className="flex items-center justify-between p-4 border border-stone-200 rounded bg-stone-50 hover:bg-stone-100 transition-colors">
+                    <span className="text-sm font-serif">Atualizações de Novas Coleções</span>
+                    <input type="checkbox" defaultChecked className="w-5 h-5 cursor-pointer" />
+                  </div>
+                  <div className="flex items-center justify-between p-4 border border-stone-200 rounded bg-stone-50 hover:bg-stone-100 transition-colors">
+                    <span className="text-sm font-serif">Notificações SMS</span>
+                    <input type="checkbox" className="w-5 h-5 cursor-pointer" />
+                  </div>
+                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 transition-colors rounded font-serif mt-6">
+                    ✓ SALVAR PREFERÊNCIAS
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Histórico de Pedidos */}
+            <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm mb-8">
+              <div className="flex items-center mb-8">
+                <Package className="w-6 h-6 text-stone-900 mr-3" />
+                <h3 className="text-2xl font-serif">Histórico de Pedidos</h3>
+              </div>
+              {cart.length === 0 ? (
+                <div className="text-center py-16 bg-stone-50 rounded">
+                  <ShoppingBag className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+                  <p className="text-stone-600 text-lg mb-4">Nenhum pedido realizado ainda</p>
+                  <button 
+                    onClick={() => {setCurrentPage('collections'); window.scrollTo(0,0);}}
+                    className="border border-stone-900 text-stone-900 px-8 py-2 text-sm tracking-widest hover:bg-stone-900 hover:text-white transition-all rounded"
+                  >
+                    EXPLORAR COLEÇÃO
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {cart.map((order, index) => (
+                    <div key={index} className="border border-stone-200 p-6 rounded flex justify-between items-center hover:bg-stone-50 transition-colors">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-4">
+                          <div className="w-16 h-16 bg-stone-100 rounded flex items-center justify-center">
+                            <ShoppingBag className="w-8 h-8 text-stone-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-serif text-lg text-stone-900">{order.name}</h4>
+                            <p className="text-stone-600 text-sm">Pedido: #{1000 + index}</p>
+                            <p className="text-stone-600 text-sm">Status: <span className="text-green-600 font-serif">✓ Entregue</span></p>
+                          </div>
+                        </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-serif text-xl text-stone-900">${order.price.toLocaleString()}</p>
-                        <button className="text-sm text-stone-600 hover:text-stone-900 mt-2">Ver Detalhes</button>
+                        <p className="font-serif text-2xl text-stone-900">R$ {order.price.toLocaleString('pt-BR')}</p>
+                        <button className="text-sm text-stone-600 hover:text-stone-900 mt-2 underline">Ver Detalhes →</button>
                       </div>
                     </div>
-                  ))
-                )}
-              </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Logout Button */}
+            <div className="flex justify-center mb-8">
+              <button 
+                onClick={() => {setCurrentPage('home'); window.scrollTo(0,0);}}
+                className="border-2 border-stone-900 text-stone-900 px-12 py-4 text-sm tracking-widest hover:bg-red-50 hover:border-red-600 hover:text-red-600 transition-all rounded font-serif"
+              >
+                🚪 FAZER LOGOUT
+              </button>
             </div>
           </div>
         </div>
@@ -1550,7 +1674,7 @@ const LuxuryJewelry = () => {
             </div>
           </div>
           <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-stone-500">
-            <p>© 2025 Maison d'Héritage. Todos os direitos reservados.</p>
+            <p>© 2025 Sorelle. Todos os direitos reservados.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
               <a href="#" className="hover:text-white transition-colors">Termos de Serviço</a>
