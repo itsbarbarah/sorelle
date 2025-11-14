@@ -3,7 +3,7 @@ import { ShoppingBag, User, Search, Award, Shield, Clock, Phone, Mail, MapPin, X
 
 const LuxuryJewelry = () => {
   const [cart, setCart] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [currentPage, setCurrentPage] = useState('home');
   const [showCart, setShowCart] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -168,7 +168,7 @@ const LuxuryJewelry = () => {
     { image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80', likes: 2890 }
   ];
 
-  let filteredProducts = selectedCategory === 'All' 
+  let filteredProducts = selectedCategory === 'Todos' 
     ? products 
     : products.filter(p => p.category === selectedCategory);
 
@@ -267,7 +267,10 @@ const LuxuryJewelry = () => {
                   </span>
                 )}
               </div>
-              <User className="w-5 h-5 text-stone-600 cursor-pointer hover:text-stone-900 transition-colors hidden md:block" />
+              <User 
+                onClick={() => {setCurrentPage('account'); window.scrollTo(0,0);}}
+                className="w-5 h-5 text-stone-600 cursor-pointer hover:text-stone-900 transition-colors hidden md:block" 
+              />
               <div className="relative">
                 <ShoppingBag 
                   onClick={() => setShowCart(!showCart)}
@@ -355,7 +358,10 @@ const LuxuryJewelry = () => {
               <span className="font-serif">Total</span>
               <span className="font-serif text-xl">${cartTotal.toLocaleString()}</span>
             </div>
-            <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mb-2">
+            <button 
+              onClick={() => {setShowCart(false); setCurrentPage('checkout'); window.scrollTo(0,0);}}
+              className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mb-2"
+            >
               PROSSEGUIR PARA CHECKOUT
             </button>
             <button 
@@ -1231,6 +1237,262 @@ const LuxuryJewelry = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {currentPage === 'account' && (
+        <div className="min-h-screen">
+          <div className="relative h-96 bg-stone-900 flex items-center justify-center">
+            <div className="text-center text-white">
+              <User className="w-12 h-12 mx-auto mb-4" />
+              <h2 className="text-5xl font-serif">Minha Conta</h2>
+              <p className="mt-4 text-stone-300">Gerencie seu perfil e pedidos</p>
+            </div>
+          </div>
+
+          <div className="max-w-4xl mx-auto px-6 py-24">
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="bg-stone-50 p-8 rounded">
+                <h3 className="text-2xl font-serif mb-6">Informações Pessoais</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Nome Completo</label>
+                    <input type="text" placeholder="Seu nome" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Email</label>
+                    <input type="email" placeholder="seu@email.com" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Telefone</label>
+                    <input type="tel" placeholder="+1 (212) 000-0000" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mt-6">
+                    SALVAR ALTERAÇÕES
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-stone-50 p-8 rounded">
+                <h3 className="text-2xl font-serif mb-6">Endereço</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Endereço</label>
+                    <input type="text" placeholder="Rua e número" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Cidade</label>
+                    <input type="text" placeholder="Sua cidade" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">País</label>
+                    <input type="text" placeholder="País" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mt-6">
+                    SALVAR ENDEREÇO
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-stone-50 p-8 rounded">
+                <h3 className="text-2xl font-serif mb-6">Segurança</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Senha Atual</label>
+                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Nova Senha</label>
+                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-serif mb-2 text-stone-700">Confirme Senha</label>
+                    <input type="password" placeholder="••••••••" className="w-full border border-stone-300 px-4 py-2 focus:outline-none focus:border-stone-900" />
+                  </div>
+                  <button className="w-full bg-stone-900 text-white py-3 text-sm tracking-widest hover:bg-stone-800 mt-6">
+                    ALTERAR SENHA
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-16">
+              <h3 className="text-3xl font-serif mb-8">Meus Pedidos</h3>
+              <div className="grid gap-6">
+                {cart.length === 0 ? (
+                  <div className="text-center py-12 bg-stone-50 rounded">
+                    <ShoppingBag className="w-16 h-16 text-stone-300 mx-auto mb-4" />
+                    <p className="text-stone-600">Nenhum pedido realizado ainda</p>
+                  </div>
+                ) : (
+                  cart.map((order, index) => (
+                    <div key={index} className="border border-stone-200 p-6 rounded flex justify-between items-center">
+                      <div>
+                        <h4 className="font-serif text-lg mb-2">{order.name}</h4>
+                        <p className="text-stone-600 text-sm">ID do Pedido: #{1000 + index}</p>
+                        <p className="text-stone-600 text-sm">Status: Entregue</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-serif text-xl text-stone-900">${order.price.toLocaleString()}</p>
+                        <button className="text-sm text-stone-600 hover:text-stone-900 mt-2">Ver Detalhes</button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentPage === 'checkout' && (
+        <div className="min-h-screen">
+          <div className="relative h-64 bg-stone-900 flex items-center justify-center">
+            <div className="text-center text-white">
+              <ShoppingBag className="w-12 h-12 mx-auto mb-4" />
+              <h2 className="text-4xl font-serif">Finalizar Compra</h2>
+            </div>
+          </div>
+
+          <div className="max-w-6xl mx-auto px-6 py-16">
+            {cart.length === 0 ? (
+              <div className="text-center py-24">
+                <ShoppingBag className="w-20 h-20 text-stone-300 mx-auto mb-6" />
+                <h3 className="text-2xl font-serif mb-4">Seu carrinho está vazio</h3>
+                <p className="text-stone-600 mb-8">Adicione alguns itens antes de finalizar a compra</p>
+                <button 
+                  onClick={() => {setCurrentPage('collections'); window.scrollTo(0,0);}}
+                  className="bg-stone-900 text-white px-10 py-4 text-sm tracking-widest hover:bg-stone-800"
+                >
+                  CONTINUAR COMPRANDO
+                </button>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-3 gap-12">
+                <div className="md:col-span-2">
+                  <h3 className="text-2xl font-serif mb-8">Detalhes de Entrega</h3>
+                  
+                  <div className="bg-stone-50 p-8 rounded mb-8">
+                    <h4 className="font-serif mb-6 text-lg">Informações de Contato</h4>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-serif mb-2">Nome Completo *</label>
+                        <input type="text" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-serif mb-2">Email *</label>
+                        <input type="email" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-stone-50 p-8 rounded mb-8">
+                    <h4 className="font-serif mb-6 text-lg">Endereço de Entrega</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-serif mb-2">Endereço *</label>
+                        <input type="text" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-serif mb-2">Cidade *</label>
+                          <input type="text" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-serif mb-2">País *</label>
+                          <input type="text" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-stone-50 p-8 rounded mb-8">
+                    <h4 className="font-serif mb-6 text-lg">Método de Pagamento</h4>
+                    <div className="space-y-3">
+                      <label className="flex items-center p-4 border border-stone-300 rounded cursor-pointer hover:bg-white">
+                        <input type="radio" name="payment" defaultChecked className="mr-3" />
+                        <span className="font-serif">Cartão de Crédito</span>
+                      </label>
+                      <label className="flex items-center p-4 border border-stone-300 rounded cursor-pointer hover:bg-white">
+                        <input type="radio" name="payment" className="mr-3" />
+                        <span className="font-serif">PayPal</span>
+                      </label>
+                      <label className="flex items-center p-4 border border-stone-300 rounded cursor-pointer hover:bg-white">
+                        <input type="radio" name="payment" className="mr-3" />
+                        <span className="font-serif">Transferência Bancária</span>
+                      </label>
+                    </div>
+
+                    <div className="mt-8 space-y-4">
+                      <div>
+                        <label className="block text-sm font-serif mb-2">Número do Cartão *</label>
+                        <input type="text" placeholder="0000 0000 0000 0000" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-serif mb-2">Validade *</label>
+                          <input type="text" placeholder="MM/AA" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-serif mb-2">CVC *</label>
+                          <input type="text" placeholder="000" className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="bg-stone-50 p-8 rounded sticky top-24">
+                    <h3 className="font-serif text-2xl mb-8">Resumo do Pedido</h3>
+                    
+                    <div className="space-y-4 mb-8 max-h-96 overflow-y-auto">
+                      {cart.map((item, index) => (
+                        <div key={index} className="flex justify-between items-center pb-4 border-b border-stone-200">
+                          <div>
+                            <p className="font-serif text-sm">{item.name}</p>
+                            <p className="text-xs text-stone-600">Qtd: 1</p>
+                          </div>
+                          <p className="font-serif">${item.price.toLocaleString()}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="space-y-3 border-t border-stone-300 pt-4">
+                      <div className="flex justify-between text-sm">
+                        <span>Subtotal</span>
+                        <span>${cartTotal.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Frete</span>
+                        <span className="text-green-600">Grátis</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Impostos</span>
+                        <span>${Math.round(cartTotal * 0.1).toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between font-serif text-lg pt-4 border-t border-stone-300">
+                        <span>Total</span>
+                        <span>${(cartTotal + Math.round(cartTotal * 0.1)).toLocaleString()}</span>
+                      </div>
+                    </div>
+
+                    <button className="w-full bg-stone-900 text-white py-4 text-sm tracking-widest hover:bg-stone-800 mt-8 flex items-center justify-center space-x-2">
+                      <CheckCircle className="w-5 h-5" />
+                      <span>COMPLETAR COMPRA</span>
+                    </button>
+
+                    <button 
+                      onClick={() => setShowCart(true)}
+                      className="w-full border border-stone-300 text-stone-600 py-3 text-sm tracking-widest hover:border-stone-900 mt-4"
+                    >
+                      EDITAR CARRINHO
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
