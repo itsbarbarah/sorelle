@@ -1249,38 +1249,71 @@ const LuxuryJewelry = () => {
 
       {currentPage === 'account' && (
         <div className="min-h-screen bg-stone-50">
-          <div className="relative h-80 bg-gradient-to-b from-stone-900 to-stone-800 flex items-center justify-center">
-            <div className="text-center text-white">
-              <div className="bg-white/20 p-6 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+          {/* Background Hero */}
+          <div className="relative h-96 bg-stone-900 flex items-center justify-center overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute inset-0 bg-gradient-to-b from-stone-900 via-stone-800 to-stone-900" />
+            <div className="absolute top-0 right-0 w-96 h-96 bg-stone-700/30 rounded-full blur-3xl -translate-y-1/2" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-stone-700/30 rounded-full blur-3xl translate-y-1/2" />
+            
+            <div className="relative z-10 text-center text-white">
+              <div className="bg-white/20 p-6 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4 backdrop-blur-md">
                 <User className="w-12 h-12" />
               </div>
-              <h2 className="text-5xl font-serif">Minha Conta</h2>
-              <p className="mt-4 text-stone-200">Gerencie seu perfil, endereços e histórico de pedidos</p>
+              <h2 className="text-5xl font-serif mb-2">Minha Conta</h2>
+              <p className="text-stone-200">Gerencie seu perfil e preferências</p>
             </div>
           </div>
 
           <div className="max-w-6xl mx-auto px-6 py-20">
-            {/* Stats Cards */}
-            <div className="grid md:grid-cols-4 gap-4 mb-16">
-              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
-                <ShoppingBag className="w-8 h-8 text-stone-900 mb-3" />
-                <p className="text-2xl font-serif">{cart.length}</p>
-                <p className="text-sm text-stone-600">Itens no Carrinho</p>
+            {/* Stats Cards - Improved */}
+            <div className="grid md:grid-cols-4 gap-6 mb-16">
+              {/* Total de Compras */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm hover:shadow-lg transition-all group">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="bg-stone-100 p-4 rounded-lg group-hover:bg-stone-900 group-hover:text-white transition-all">
+                    <ShoppingBag className="w-6 h-6" />
+                  </div>
+                </div>
+                <p className="text-3xl font-serif text-stone-900 mb-1">{Math.max(cart.length, 0)}</p>
+                <p className="text-sm text-stone-600">Total de Compras</p>
+                <p className="text-xs text-stone-400 mt-2">Pedidos realizados</p>
               </div>
-              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
-                <Heart className="w-8 h-8 text-red-500 mb-3" />
-                <p className="text-2xl font-serif">{favorites.length}</p>
+
+              {/* Total Gasto */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm hover:shadow-lg transition-all group">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="bg-blue-100 p-4 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-all">
+                    <Award className="w-6 h-6 text-blue-600 group-hover:text-white" />
+                  </div>
+                </div>
+                <p className="text-3xl font-serif text-stone-900 mb-1">R$ {(cart.reduce((sum, p) => sum + (p.price || 0), 0)).toLocaleString('pt-BR')}</p>
+                <p className="text-sm text-stone-600">Valor Total Investido</p>
+                <p className="text-xs text-stone-400 mt-2">Em suas joias Sorelle</p>
+              </div>
+
+              {/* Produtos Favoritos */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm hover:shadow-lg transition-all group">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="bg-red-100 p-4 rounded-lg group-hover:bg-red-600 group-hover:text-white transition-all">
+                    <Heart className="w-6 h-6 text-red-600 group-hover:text-white fill-current" />
+                  </div>
+                </div>
+                <p className="text-3xl font-serif text-stone-900 mb-1">{favorites.length}</p>
                 <p className="text-sm text-stone-600">Produtos Favoritos</p>
+                <p className="text-xs text-stone-400 mt-2">Salvos para depois</p>
               </div>
-              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
-                <Award className="w-8 h-8 text-stone-900 mb-3" />
-                <p className="text-2xl font-serif">Membro</p>
-                <p className="text-sm text-stone-600">Status Premium</p>
-              </div>
-              <div className="bg-white p-6 rounded-lg border border-stone-200 shadow-sm hover:shadow-md transition-shadow">
-                <CheckCircle className="w-8 h-8 text-green-600 mb-3" />
-                <p className="text-2xl font-serif">5 ⭐</p>
-                <p className="text-sm text-stone-600">Avaliação Média</p>
+
+              {/* Nível de Cliente */}
+              <div className="bg-white p-8 rounded-lg border border-stone-200 shadow-sm hover:shadow-lg transition-all group">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="bg-amber-100 p-4 rounded-lg group-hover:bg-amber-600 group-hover:text-white transition-all">
+                    <Sparkles className="w-6 h-6 text-amber-600 group-hover:text-white" />
+                  </div>
+                </div>
+                <p className="text-3xl font-serif text-stone-900 mb-1">🥇 Premium</p>
+                <p className="text-sm text-stone-600">Seu Status</p>
+                <p className="text-xs text-stone-400 mt-2">Cliente VIP Sorelle</p>
               </div>
             </div>
 
@@ -1452,12 +1485,20 @@ const LuxuryJewelry = () => {
             </div>
 
             {/* Logout Button */}
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center gap-4 mb-8">
               <button 
                 onClick={() => {setCurrentPage('home'); window.scrollTo(0,0);}}
-                className="border-2 border-stone-900 text-stone-900 px-12 py-4 text-sm tracking-widest hover:bg-red-50 hover:border-red-600 hover:text-red-600 transition-all rounded font-serif"
+                className="group relative px-12 py-4 text-sm tracking-widest font-serif rounded overflow-hidden bg-gradient-to-r from-stone-900 to-stone-800 text-white hover:from-red-600 hover:to-red-700 transition-all shadow-lg hover:shadow-xl"
               >
-                🚪 FAZER LOGOUT
+                <span className="relative flex items-center justify-center">
+                  🚪 SAIR DA CONTA
+                </span>
+              </button>
+              <button 
+                onClick={() => {setCurrentPage('collections'); window.scrollTo(0,0);}}
+                className="px-12 py-4 text-sm tracking-widest font-serif rounded border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white transition-all"
+              >
+                ← CONTINUAR COMPRANDO
               </button>
             </div>
           </div>
