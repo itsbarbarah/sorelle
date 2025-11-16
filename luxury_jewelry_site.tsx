@@ -1,22 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingBag, User, Search, Award, Shield, Clock, Phone, Mail, MapPin, X, Menu, ChevronRight, Star, Heart, CheckCircle, Sparkles, Eye, Package } from 'lucide-react';
 
 const LuxuryJewelry = () => {
-  const [cart, setCart] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('Todos');
-  const [currentPage, setCurrentPage] = useState('home');
-  const [showCart, setShowCart] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [favorites, setFavorites] = useState([]);
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState('');
-  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('featured');
-  const [priceRange, setPriceRange] = useState('all');
+  interface Product {
+    id: number;
+    name: string;
+    price: number;
+    category?: string;
+    image?: string;
+    description?: string;
+    details?: string;
+    story?: string;
+    badge?: string;
+    rating?: number;
+    reviews?: number;
+  }
+
+  const [cart, setCart] = useState<Product[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
+  const [currentPage, setCurrentPage] = useState<string>('home');
+  const [showCart, setShowCart] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [mobileMenu, setMobileMenu] = useState<boolean>(false);
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [showNotification, setShowNotification] = useState<boolean>(false);
+  const [notificationMessage, setNotificationMessage] = useState<string>('');
+  const [currentHeroSlide, setCurrentHeroSlide] = useState<number>(0);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('featured');
+  const [priceRange, setPriceRange] = useState<string>('all');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -184,34 +198,25 @@ const LuxuryJewelry = () => {
 
   if (searchQuery) {
     filteredProducts = filteredProducts.filter(p => 
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase())
+      p.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
 
-  if (sortBy === 'price-low') {
-    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
-  } else if (sortBy === 'price-high') {
-    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
-  } else if (sortBy === 'name') {
-    filteredProducts = [...filteredProducts].sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  const addToCart = (product) => {
+  const addToCart = (product: Product) => {
     setCart([...cart, product]);
     setNotificationMessage('Adicionado à coleção');
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), 2000);
   };
 
-  const removeFromCart = (index) => {
+  const removeFromCart = (index: number) => {
     setCart(cart.filter((_, i) => i !== index));
     setNotificationMessage('Removido da coleção');
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), 2000);
   };
 
-  const toggleFavorite = (productId) => {
+  const toggleFavorite = (productId: number) => {
     if (favorites.includes(productId)) {
       setFavorites(favorites.filter(id => id !== productId));
       setNotificationMessage('Removido dos favoritos');
@@ -224,7 +229,6 @@ const LuxuryJewelry = () => {
   };
 
   const cartTotal = cart.reduce((sum, item) => sum + item.price, 0);
-
   return (
     <div className="min-h-screen bg-stone-50">
       {showNotification && (
@@ -448,11 +452,11 @@ const LuxuryJewelry = () => {
                 <div className="mt-6 pt-6 border-t space-y-3 text-sm text-stone-600">
                   <div className="flex items-center">
                     <Shield className="w-4 h-4 mr-2 text-stone-900" />
-                    <span>Garantia Vitalícia</span>
+                    <span>Garantia de 6 meses</span>
                   </div>
                   <div className="flex items-center">
                     <Award className="w-4 h-4 mr-2 text-stone-900" />
-                    <span>Autenticidade Certificada</span>
+                    <span>Peças de alta qualidade</span>
                   </div>
                   <div className="flex items-center">
                     <Package className="w-4 h-4 mr-2 text-stone-900" />
@@ -484,7 +488,7 @@ const LuxuryJewelry = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-                  <p className="text-sm tracking-widest mb-4 font-light">FUNDADA EM 1847</p>
+                  <p className="text-sm tracking-widest mb-4 font-light">FUNDADA EM 2025</p>
                   <h2 className="text-5xl md:text-7xl font-serif mb-6 tracking-tight">{slide.title}</h2>
                   <p className="text-base md:text-xl mb-8 font-light max-w-2xl">
                     {slide.subtitle}
@@ -516,15 +520,15 @@ const LuxuryJewelry = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-sm">
                 <div className="flex items-center justify-center space-x-2">
                   <Shield className="w-5 h-5 text-stone-900" />
-                  <span className="text-stone-600">Garantia Vitalícia</span>
+                  <span className="text-stone-600">Garantia de 6 meses</span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <Package className="w-5 h-5 text-stone-900" />
-                  <span className="text-stone-600">Frete Grátis</span>
+                  <span className="text-stone-600">Envio para todo país</span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <Award className="w-5 h-5 text-stone-900" />
-                  <span className="text-stone-600">Autenticidade Certificada</span>
+                  <span className="text-stone-600">Peças de alta qualidade</span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <Clock className="w-5 h-5 text-stone-900" />
@@ -537,9 +541,9 @@ const LuxuryJewelry = () => {
           <div className="max-w-7xl mx-auto px-6 py-24">
             <div className="text-center mb-16">
               <p className="text-sm tracking-widest mb-4 text-stone-600">DESTAQUE</p>
-              <h3 className="text-4xl font-serif mb-4">Peças Assinatura</h3>
+              <h3 className="text-4xl font-serif mb-4">Peças mais procuradas</h3>
               <p className="text-stone-600 max-w-2xl mx-auto">
-                Descubra nossas criações mais cobiçadas, cada uma uma obra-prima de design e artesanato
+                Descubra as peças favoritas dos nossos clientes.
               </p>
             </div>
             
@@ -632,7 +636,7 @@ const LuxuryJewelry = () => {
               <p className="text-sm tracking-widest mb-4 text-stone-600">DEPOIMENTOS</p>
               <h3 className="text-4xl font-serif mb-4">Amado por Gerações</h3>
               <p className="text-stone-600 max-w-2xl mx-auto">
-                As experiências de nossa clientela distinta falam sobre nosso compromisso com a excelência
+                Feedback da nossa clientela sobre o nosso compromisso com a excelência.
               </p>
             </div>
             
@@ -661,7 +665,7 @@ const LuxuryJewelry = () => {
             <div className="max-w-7xl mx-auto px-6">
               <div className="text-center mb-12">
                 <p className="text-sm tracking-widest mb-4 text-stone-600">SIGA-NOS</p>
-                <h3 className="text-4xl font-serif mb-4">@MaisonHeritage</h3>
+                <h3 className="text-4xl font-serif mb-4">@Joalheriasorelle</h3>
                 <p className="text-stone-600">Compartilhe sua história com nossas joias</p>
               </div>
               
@@ -699,7 +703,7 @@ const LuxuryJewelry = () => {
                 <div className="bg-stone-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Shield className="w-8 h-8 text-stone-900" />
                 </div>
-                <h4 className="text-xl font-serif mb-4">Garantia Vitalícia</h4>
+                <h4 className="text-xl font-serif mb-4">Garantia de 6 meses</h4>
                 <p className="text-stone-600 text-sm mb-4 leading-relaxed">
                   Cada peça é coberta por nossa garantia abrangente vitalícia e manutenção e limpeza gratuitas
                 </p>
@@ -1135,7 +1139,7 @@ const LuxuryJewelry = () => {
                     </div>
                     <div>
                       <h4 className="font-serif mb-2">Email</h4>
-                      <p className="text-stone-600 text-sm">concierge@maisonheritage.com</p>
+                      <p className="text-stone-600 text-sm">concierge@Joalheriasorelle.com</p>
                       <p className="text-stone-500 text-xs mt-1">Respondemos em até 24 horas</p>
                     </div>
                   </div>
@@ -1200,7 +1204,7 @@ const LuxuryJewelry = () => {
                     <div>
                       <label className="block text-sm font-serif mb-2 text-stone-700">Mensagem *</label>
                       <textarea 
-                        rows="6" 
+                        rows={6} 
                         required
                         className="w-full border border-stone-300 px-4 py-3 focus:outline-none focus:border-stone-900 transition-colors"
                       ></textarea>
