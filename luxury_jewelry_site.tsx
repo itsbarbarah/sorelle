@@ -52,9 +52,9 @@ const LuxuryJewelry = () => {
   const heroSlides = [
     {
       image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80',
-      title: 'Elegância Atemporal',
-      subtitle: 'Artesanato refinado transmitido por sete gerações',
-      cta: 'Explorar Coleção'
+      title: 'BEM-VINDA',
+      subtitle: 'As joias sorelle são para mulheres que não pedem permissão para brilhar.',
+      cta: 'Escolha sua peça!'
     },
     {
       image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1600&q=80',
@@ -166,7 +166,7 @@ const LuxuryJewelry = () => {
     },
     {
       name: 'Alexandra Sterling',
-      text: 'Três gerações de minha família usam joias da Maison d\'Héritage. A qualidade e o serviço são simplesmente atemporais.',
+      text: 'Vários membros da minha família tem peças da Sorelle. A qualidade e o serviço são simplesmente incríveis. Conquistou todos por aqui.',
       rating: 5,
       location: 'Paris',
       image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80'
@@ -486,7 +486,7 @@ const LuxuryJewelry = () => {
                   alt={slide.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
                   <p className="text-sm tracking-widest mb-4 font-light">FUNDADA EM 2025</p>
                   <h2 className="text-5xl md:text-7xl font-serif mb-6 tracking-tight">{slide.title}</h2>
@@ -705,7 +705,7 @@ const LuxuryJewelry = () => {
                 </div>
                 <h4 className="text-xl font-serif mb-4">Garantia de 6 meses</h4>
                 <p className="text-stone-600 text-sm mb-4 leading-relaxed">
-                  Cada peça é coberta por nossa garantia abrangente vitalícia e manutenção e limpeza gratuitas
+                  Cada peça é coberta por nossa garantia de 6 meses, para manutenção e limpezas.
                 </p>
               </div>
               <div className="text-center px-6 group cursor-pointer" onClick={() => {setCurrentPage('contact'); window.scrollTo(0,0);}}>
